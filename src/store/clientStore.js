@@ -11,6 +11,7 @@ export const clientStore = create((set,get) => ({
     ros : null,
     cameraData : null,
     speed : 0,
+    mapData : null,
     setmenu : (menu) => set({menu}),
     setmenuOpened : (menuOpened) => set({menuOpened}),
     initializeSocket: async function () { 
@@ -26,14 +27,21 @@ export const clientStore = create((set,get) => ({
             set({connectedSocket : true})
 
           });
+          
           socket.on('disconnect', async () => {
               set({connectedSocket : false})
           });
+
           socket.on('message', (data) => {
             console.log('Response from server:', data);
           });
+
           const {camera_feed} = get()
           socket.on('camera_feed',camera_feed)
+
+          const {map_feed} = get()
+          socket.on('map_feed',map_feed)
+
           socket.on('speed', (data) => {
             set({speed : data.speed})
         });
@@ -69,6 +77,9 @@ export const clientStore = create((set,get) => ({
     camera_feed : async function(data){
 
         set({cameraData : data.image})
+    },
+    map_feed : async function(data){
+        set({mapData : data.image})
     }
 
 }));

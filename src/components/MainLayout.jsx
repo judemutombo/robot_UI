@@ -16,10 +16,10 @@ const MainLayout = function(props) {
         <NavBar/>
         <div className='w-full h-[calc(100%-64px)]'>
             <Routes>
-                <Route path="/" element={connectedSocket && connectedRos ? <Dashboard /> : <Loarder/>} />
-                <Route path="/remote" element={connectedSocket && connectedRos ? <Remote /> : <Loarder/>} />
-                <Route path="/task" element={connectedSocket && connectedRos ? <Remote /> : <Loarder/>} />
-                <Route path="/dashboard" element={connectedSocket && connectedRos ? <Dashboard /> : <Loarder/>} />
+                <Route path="/" element={connectedSocket  ? <Dashboard /> : <Loarder/>} />
+                <Route path="/remote" element={connectedSocket  ? <Remote /> : <Loarder/>} />
+                <Route path="/task" element={connectedSocket  ? <Remote /> : <Loarder/>} />
+                <Route path="/dashboard" element={connectedSocket  ? <Dashboard /> : <Loarder/>} />
             </Routes>
         </div>
         

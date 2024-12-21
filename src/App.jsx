@@ -14,7 +14,7 @@ function App() {
     initializeRos()
   },[initializeSocket, initializeRos])
 
-  if(!(connectedSocket && connectedRos )){
+  if(!(connectedSocket  )){
     return <Loarder/>
   }
 
