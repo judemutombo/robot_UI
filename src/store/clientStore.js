@@ -21,8 +21,8 @@ export const clientStore = create((set,get) => ({
           const socket = io('http://localhost:5000');
           set({ socket });
 
-          set({connectedSocket : true})
-          socket.on('connected', async (data) => {
+        
+          socket.on('connect', async (data) => {
             console.log('Connected:', data)
             set({connectedSocket : true})
 
