@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ROSLIB from 'roslib';
-import ROS2D from 'ros2d';
-import createjs from 'easeljs'
+
 import { clientStore } from '../store/clientStore';
 
 const Map = (props) => {

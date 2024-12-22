@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import MainLayout from "./components/MainLayout";
 import { clientStore } from "./store/clientStore";
 import Loarder from "./components/Loader";
-
+import {Toaster} from "react-hot-toast"
 
 function App() {
   const {initializeSocket, initializeRos, connectedSocket, connectedRos}= clientStore()
@@ -24,6 +24,7 @@ function App() {
         <SideBar />
         <MainLayout />
     </div>
+    <Toaster></Toaster>
     </BrowserRouter>
   );
 }

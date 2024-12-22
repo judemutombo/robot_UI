@@ -14,17 +14,8 @@ const Remote = (props) => {
     return (
         <div className="w-full h-full overflow-hidden flex flex-row bg-slate-800">
             <section className="w-1/2 p-2">
-                <div className="w-full h-2/3 flex flex-col items-center pt-2 border rounded-lg overflow-hidden">
-                    <div className="cam-state">
-                        <span className="text-white">Camera state </span>
-                        <label className="switch">
-                            <input type="checkbox" name="switch" id="switch" />
-                            <span className="slider round"></span>
-                        </label>
-                    </div>
-                    <div className="w-full h-full ">
-                        <Camera/>
-                    </div>
+                <div className="w-full h-2/3 flex flex-col items-center  border rounded-lg overflow-hidden">
+                    <Camera/>
                 </div>
                 <div className="w-full h-[calc((100%/3)-8px)] border rounded-lg mt-2 flex flex-row">
                     <div className="circle-section flex items-center justify-center  w-1/2 h-full">

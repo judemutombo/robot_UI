@@ -1,6 +1,7 @@
 import {create} from 'zustand';
 import io from 'socket.io-client';
 import ROSLIB from 'roslib';
+import toast from 'react-hot-toast';
 
 export const clientStore = create((set,get) => ({
     connectedSocket : false,
@@ -10,20 +11,21 @@ export const clientStore = create((set,get) => ({
     socket : null,
     ros : null,
     cameraData : null,
+    camera_qr_data : null,
     speed : 0,
     mapData : null,
+    gear : 0,
     setmenu : (menu) => set({menu}),
     setmenuOpened : (menuOpened) => set({menuOpened}),
     initializeSocket: async function () { 
-      
-      console.log('try to connect');
+  
       if(!get().socket) {
           const socket = io('http://localhost:5000');
           set({ socket });
 
         
           socket.on('connect', async (data) => {
-            console.log('Connected:', data)
+            console.log('Connected')
             set({connectedSocket : true})
 
           });
@@ -39,17 +41,29 @@ export const clientStore = create((set,get) => ({
           const {camera_feed} = get()
           socket.on('camera_feed',camera_feed)
 
+          const {camera_qr_feed} = get()
+          socket.on('camera_qr_feed',camera_qr_feed)
+
           const {map_feed} = get()
           socket.on('map_feed',map_feed)
 
           socket.on('speed', (data) => {
             set({speed : data.speed})
-        });
+          });
+
+          socket.on('task_response', (data) => {
+            toast(data.response, {
+              icon: '⚙️',
+            });
+          });
+
+          socket.on('gear', (data) => {
+            set({gear : data.gear})
+          });
       }
     },
     sendDirection: async function (direction) {
       const {socket } = get()
-      console.log(`Sending direction: ${direction}`);
       socket.emit("moveDirection", { direction: direction });
     },
     initializeRos : function(){
@@ -59,27 +73,47 @@ export const clientStore = create((set,get) => ({
       })
 
       rs.on('connection', () => {
-        console.log('Connected to ROS');
         set({connectedRos : true})
       });
 
       rs.on('error', (error) => {
-          console.error('Error connecting to ROS:', error); 
           set({connectedRos : false})
       });
 
       rs.on('close', () => {
-          console.log('Connection to ROS closed.');
           set({connectedRos : false})
       });
       set({ros : rs})
     },
+
     camera_feed : async function(data){
 
         set({cameraData : data.image})
     },
+    camera_qr_feed : async function(data){
+
+        set({camera_qr_data : data.image})
+    },
+
     map_feed : async function(data){
         set({mapData : data.image})
+    },
+
+    sendTask : async function(task){
+      const {socket} = get()
+      socket.emit('task', {task : task})
+    },
+
+    mapping :async function(){
+      toast('Mapping started', {
+        icon: '⚙️',
+      });
+      const {socket} = get()
+      const task = {
+        task_name : 'mapping',
+        params : {}
+      }
+      socket.emit("robot_task", {task : task})
     }
 
 }));

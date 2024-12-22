@@ -1,6 +1,7 @@
 
 import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Remote from './Remote';
+import Task from './Task';
 import Dashboard from './DashBoard';
 import { clientStore } from '../store/clientStore';
 import Loarder from './Loader';
@@ -18,7 +19,7 @@ const MainLayout = function(props) {
             <Routes>
                 <Route path="/" element={connectedSocket  ? <Dashboard /> : <Loarder/>} />
                 <Route path="/remote" element={connectedSocket  ? <Remote /> : <Loarder/>} />
-                <Route path="/task" element={connectedSocket  ? <Remote /> : <Loarder/>} />
+                <Route path="/task" element={connectedSocket  ? <Task /> : <Loarder/>} />
                 <Route path="/dashboard" element={connectedSocket  ? <Dashboard /> : <Loarder/>} />
             </Routes>
         </div>

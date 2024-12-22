@@ -17,7 +17,6 @@ const SideBar = function(){
     if(init.current){
         setTimeout(() => {
             init.current = false
-            console.log("init")
         }, 5000);
     }
     const handleChangeMenu = (menu) => {
