@@ -105,9 +105,7 @@ export const clientStore = create((set,get) => ({
     },
 
     mapping :async function(){
-      toast('Mapping started', {
-        icon: '⚙️',
-      });
+      
       const {socket} = get()
       const task = {
         task_name : 'mapping',
