@@ -15,11 +15,15 @@ export const clientStore = create((set,get) => ({
     speed : 0,
     mapData : null,
     gear : 0,
+    locations : null,
+    processState : "stationary",
+
     setmenu : (menu) => set({menu}),
     setmenuOpened : (menuOpened) => set({menuOpened}),
     initializeSocket: async function () { 
   
       if(!get().socket) {
+
           const socket = io('http://localhost:5000');
           set({ socket });
 
@@ -60,9 +64,24 @@ export const clientStore = create((set,get) => ({
           socket.on('gear', (data) => {
             set({gear : data.gear})
           });
+
+          socket.on('mapping_output', (data) => {
+            set({locations : data.locations})
+          });
+
+          socket.on('processState', (data) => {
+            console.log(data)
+            set({processState : data.state})
+          });
+
       }
     },
     sendDirection: async function (direction) {
+      const {processState} = get()
+      if (processState == "Processing"){
+        return toast.error("The robot is under a process")
+      }
+      
       const {socket } = get()
       socket.emit("moveDirection", { direction: direction });
     },
@@ -85,7 +104,6 @@ export const clientStore = create((set,get) => ({
       });
       set({ros : rs})
     },
-
     camera_feed : async function(data){
 
         set({cameraData : data.image})
@@ -94,16 +112,13 @@ export const clientStore = create((set,get) => ({
 
         set({camera_qr_data : data.image})
     },
-
     map_feed : async function(data){
         set({mapData : data.image})
     },
-
     sendTask : async function(task){
       const {socket} = get()
       socket.emit('task', {task : task})
     },
-
     mapping :async function(){
       
       const {socket} = get()
