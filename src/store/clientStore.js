@@ -66,7 +66,9 @@ export const clientStore = create((set,get) => ({
           });
 
           socket.on('mapping_output', (data) => {
-            set({locations : data.locations})
+            console.log(data.locations)
+            const {serialize} = get()
+            serialize(data.locations)
           });
 
           socket.on('processState', (data) => {
@@ -127,7 +129,47 @@ export const clientStore = create((set,get) => ({
         params : {}
       }
       socket.emit("robot_task", {task : task})
+    },
+    serialize : async function(locations){
+      
+      let lcs = []
+      locations.forEach(location => {
+        let nm = location.location.split("_")
+        if(nm[0] == "intersection"){
+          if (nm[2] == "x" || nm[2] == "y"){
+              
+          }else{
+            let found = false
+            for(let i = 0; i < lcs.length; i++){
+              if (lcs[i].location == nm[1] + " " + nm[2]){
+                found = true
+              }
+            }
+            if (!found){
+              lcs.push({
+                location : nm[1] + " " + nm[2],
+                x : location.x,
+                y : location.y,
+              })
+            }
+          }
+        }else if (nm[0] == "station"){
+          let found = false
+            for(let i = 0; i < lcs.length; i++){
+              if (lcs[i].location == nm[0] + " " + nm[1]){
+                found = true
+              }
+            }
+            if (!found){
+            lcs.push({
+              location : nm[0] + " " + nm[1],
+              x : location.x,
+              y : location.y,
+            })
+          }
+        }
+      });
+      set({locations : lcs})
     }
-
 }));
 
