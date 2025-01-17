@@ -29,7 +29,6 @@ const SideBar = function(){
                 <h1 className="text-4xl text-white">Menu</h1>
             </div>
             <div className=" mt-10 text-white">
-                <BarElement icon={<FaChartBar/>} text={"Dashboard"} name={"Dashboard"} handle={handleChangeMenu} current={menu}/>
                 <BarElement icon={<GiGamepad/>} text={"Remote Control"} name={"Remote"} handle={handleChangeMenu} current={menu}/>
                 <BarElement icon={<FaList/>} text={"Task"} name={"Task"} handle={handleChangeMenu} current={menu}/>
             </div>

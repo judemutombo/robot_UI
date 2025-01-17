@@ -15,7 +15,8 @@ export const clientStore = create((set,get) => ({
     speed : 0,
     mapData : null,
     gear : 0,
-    locations : null,
+    zone : null,
+    station : null,
     processState : "stationary",
 
     setmenu : (menu) => set({menu}),
@@ -66,7 +67,6 @@ export const clientStore = create((set,get) => ({
           });
 
           socket.on('mapping_output', (data) => {
-            console.log(data.locations)
             const {serialize} = get()
             serialize(data.locations)
           });
@@ -117,9 +117,14 @@ export const clientStore = create((set,get) => ({
     map_feed : async function(data){
         set({mapData : data.image})
     },
-    sendTask : async function(task){
+    sendTask : async function(params){
       const {socket} = get()
-      socket.emit('task', {task : task})
+      const task = {
+        task_name : 'carrying',
+        params : Object.assign({}, ...params)
+      }
+      console.log(task)
+      socket.emit('robot_task', {task : task})
     },
     mapping :async function(){
       
@@ -131,8 +136,9 @@ export const clientStore = create((set,get) => ({
       socket.emit("robot_task", {task : task})
     },
     serialize : async function(locations){
-      
+      console.log(locations)
       let lcs = []
+      let st = []
       locations.forEach(location => {
         let nm = location.location.split("_")
         if(nm[0] == "intersection"){
@@ -155,13 +161,13 @@ export const clientStore = create((set,get) => ({
           }
         }else if (nm[0] == "station"){
           let found = false
-            for(let i = 0; i < lcs.length; i++){
-              if (lcs[i].location == nm[0] + " " + nm[1]){
+            for(let i = 0; i < st.length; i++){
+              if (st[i].location == nm[0] + " " + nm[1]){
                 found = true
               }
             }
             if (!found){
-            lcs.push({
+              st.push({
               location : nm[0] + " " + nm[1],
               x : location.x,
               y : location.y,
@@ -169,7 +175,8 @@ export const clientStore = create((set,get) => ({
           }
         }
       });
-      set({locations : lcs})
+      set({zone : lcs})
+      set({station : st})
     }
 }));
 

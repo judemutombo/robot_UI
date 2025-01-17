@@ -39,15 +39,10 @@ const Camera = (props) => {
 
     return (
         <>
-            <div className="cam-state">
-                <span className="text-white">Camera state </span>
-                <label className="switch">
-                    <input type="checkbox" name="switch" id="switch" />
-                    <span className="slider round"></span>
-                </label>
-                <select name="camera" id="camera" className="ml-2 h-full bg-transparent text-white border" onChange={onCameraChange}>
-                    <option value="front">Main camera</option>
-                    <option value="back">QR code camera</option>
+            <div className="cam-state ">
+                <select name="camera" id="camera" className="ml-2 h-10 bg-transparent text-white border" onChange={onCameraChange}>
+                    <option value="front" className="text-black">Main camera</option>
+                    <option value="back"  className="text-black">QR code camera</option>
                 </select>
             </div>
             <div className="w-full h-full ">
