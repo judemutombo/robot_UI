@@ -62,8 +62,11 @@ export const clientStore = create((set,get) => ({
             });
           });
 
-          socket.on('gear', (data) => {
-            set({gear : data.gear})
+          socket.on('gear_response', (data) => {
+            if(data.response == "changed"){
+              const {gear} = get()
+              set({gear : !gear})
+            }
           });
 
           socket.on('mapping_output', (data) => {
@@ -177,6 +180,11 @@ export const clientStore = create((set,get) => ({
       });
       set({zone : lcs})
       set({station : st})
-    }
+    },
+    changeGear : async function(){
+      console.log("changing gear")
+      const {socket, gear} = get()
+      socket.emit("robot_gear", {gear : !gear})
+    },
 }));
 
