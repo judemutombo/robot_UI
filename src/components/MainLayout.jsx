@@ -14,7 +14,7 @@ const MainLayout = () => {
       <NavBar />
       <div className="w-full h-[calc(100%-64px)]">
         <Routes>
-          <Route path="/" element={connectedSocket ? <Dashboard /> : <Loader />} />
+          <Route path="/" element={connectedSocket ? <Remote /> : <Loader />} />
           <Route
             path="/remote"
             element={connectedSocket ? <Remote /> : <Loader />}

@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 export const clientStore = create((set,get) => ({
     connectedSocket : false,
     connectedRos : false,
-    menu : "Dashboard",
+    menu : "Remote",
     menuOpened : false,
     socket : null,
     ros : null,
