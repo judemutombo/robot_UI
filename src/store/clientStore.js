@@ -62,11 +62,8 @@ export const clientStore = create((set,get) => ({
             });
           });
 
-          socket.on('gear_response', (data) => {
-            if(data.response == "changed"){
-              const {gear} = get()
-              set({gear : !gear})
-            }
+          socket.on('gear_state', (data) => {
+            set({gear : data.gear})
           });
 
           socket.on('mapping_output', (data) => {
@@ -182,8 +179,11 @@ export const clientStore = create((set,get) => ({
       set({station : st})
     },
     changeGear : async function(){
+      const {socket, gear, processState} = get()
+      if (processState == "Processing"){
+        return toast.error("The robot is under a process")
+      }
       console.log("changing gear")
-      const {socket, gear} = get()
       socket.emit("robot_gear", {gear : !gear})
     },
 }));
