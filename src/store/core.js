@@ -1,15 +1,13 @@
 import {create} from 'zustand';
 import io from 'socket.io-client';
-import ROSLIB from 'roslib';
 import toast from 'react-hot-toast';
 
-export const clientStore = create((set,get) => ({
+export const core = create((set,get) => ({
     connectedSocket : false,
     connectedRos : false,
     menu : "Remote",
     menuOpened : false,
     socket : null,
-    ros : null,
     cameraData : null,
     camera_qr_data : null,
     speed : 0,
@@ -87,31 +85,13 @@ export const clientStore = create((set,get) => ({
       const {socket } = get()
       socket.emit("moveDirection", { direction: direction });
     },
-    initializeRos : function(){
 
-      const rs = new ROSLIB.Ros({
-        url : 'ws://localhost:9090'
-      })
-
-      rs.on('connection', () => {
-        set({connectedRos : true})
-      });
-
-      rs.on('error', (error) => {
-          set({connectedRos : false})
-      });
-
-      rs.on('close', () => {
-          set({connectedRos : false})
-      });
-      set({ros : rs})
-    },
     camera_feed : async function(data){
 
         set({cameraData : data.image})
     },
     camera_qr_feed : async function(data){
-
+        console.log(data)
         set({camera_qr_data : data.image})
     },
     map_feed : async function(data){

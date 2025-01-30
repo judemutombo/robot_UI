@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { clientStore } from "../store/clientStore";
+import { core } from "../store/core";
 
 
 const Camera = (props) => {
     const imgRef = useRef(null)
-    const {cameraData, camera_qr_data} = clientStore()
+    const {cameraData, camera_qr_data} = core()
     const [cam, setcam] = useState("front") 
 
     useEffect(function(){

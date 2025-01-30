@@ -2,12 +2,12 @@ import { Routes, Route } from "react-router-dom";
 import Remote from "./Remote";
 import Task from "./Task";
 import Dashboard from "./DashBoard";
-import { clientStore } from "../store/clientStore";
+import { core } from "../store/core";
 import Loader from "./Loader";
 import NavBar from "./NavBar";
 
 const MainLayout = () => {
-  const { connectedSocket, menuOpened } = clientStore();
+  const { connectedSocket, menuOpened } = core();
 
   return (
     <div className="w-full h-full overflow-hidden">
@@ -20,10 +20,6 @@ const MainLayout = () => {
             element={connectedSocket ? <Remote /> : <Loader />}
           />
           <Route path="/task" element={connectedSocket ? <Task /> : <Loader />} />
-          <Route
-            path="/dashboard"
-            element={connectedSocket ? <Dashboard /> : <Loader />}
-          />
         </Routes>
       </div>
     </div>

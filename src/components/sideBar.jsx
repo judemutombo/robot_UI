@@ -2,11 +2,11 @@ import { GiGamepad } from "react-icons/gi";
 import { FaList } from "react-icons/fa";
 import BarElement from "./BarElement";
 import { useState } from "react";
-import { clientStore } from "../store/clientStore";
+import { core } from "../store/core";
 
 const SideBar = () => {
-    const [menu, setMenu] = useState("Dashboard");
-    const { setmenu, menuOpened, setmenuOpened } = clientStore();
+    const [menu, setMenu] = useState("Remote");
+    const { setmenu, menuOpened, setmenuOpened } = core();
   
     const cn = menuOpened
       ? "w-64 h-full bg-slate-900 animate-[sslidein_1s_forwards] overflow-hidden"

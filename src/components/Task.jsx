@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import SimpleTask from './SimpleTask';
-import { clientStore } from '../store/clientStore';
+import { core } from '../store/core';
 import toast from 'react-hot-toast';
 
 const Task = (props) => {
-    const { sendTask, mapping, zone, station } = clientStore();
+    const { sendTask, mapping, zone, station } = core();
     const [zones, setZones] = useState([]);
     const [selected, setSelected] = useState("");
     const [task, setTask] = useState("");

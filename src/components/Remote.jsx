@@ -2,14 +2,14 @@
 import RemoteButton from "./Remotebutton"
 import Map from "./Map"
 import Camera from "./Camera";
-import { clientStore } from "../store/clientStore";
+import { core } from "../store/core";
 import Speed from "./Speed";
 import React, { useEffect } from "react";
 
 
 const Remote = (props) => {
 
-    const {sendDirection, changeGear, gear} = clientStore()
+    const {sendDirection, changeGear, gear} = core()
     const gearref = React.createRef()
     const onReset = function(e){
         sendDirection("STOP")

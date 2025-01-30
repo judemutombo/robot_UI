@@ -1,9 +1,9 @@
 import { TbBaselineDensitySmall } from "react-icons/tb";
-import { clientStore } from "../store/clientStore";
+import { core } from "../store/core";
 
 
 const NavBar = (props) => {
-    const {menu, menuOpened, setmenuOpened} =clientStore();
+    const {menu, menuOpened, setmenuOpened} =core();
     const handleMenu = () => {
         setmenuOpened(!menuOpened);
     }
