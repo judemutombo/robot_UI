@@ -5,7 +5,7 @@ const Map = () => {
     const imgRef = useRef(null);
     const { mapData } = core();
     const [loading, setLoading] = useState(true); // Loading state
-    const [zoom, setZoom] = useState(5); // Initial zoom level
+    const [zoom, setZoom] = useState(1); // Initial zoom level
 
     const zoomIn = () => {
         setZoom((prevZoom) => Math.min(prevZoom + 0.1, 7)); // Max zoom 7x
@@ -55,6 +55,8 @@ const Map = () => {
                     className="transition-transform duration-300"
                     style={{ transform: `scale(${zoom})` }} // Apply zoom with scale
                     ref={imgRef}
+                    width="100%"
+                    height="100%"
                 />
             )}
 

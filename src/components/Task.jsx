@@ -4,7 +4,7 @@ import { core } from '../store/core';
 import toast from 'react-hot-toast';
 
 const Task = (props) => {
-    const { sendTask, mapping, zone, station } = core();
+    const { sendTask, mapping, zone, station , processState} = core();
     const [zones, setZones] = useState([]);
     const [selected, setSelected] = useState("");
     const [task, setTask] = useState("");
@@ -23,6 +23,10 @@ const Task = (props) => {
         }
     }, [zone]);
 
+    useEffect(() => {
+        setParams([]);
+        setTask("");  
+    }, [processState]);
     const set = () => {
         if (params.length === 6) return toast.error("You can't load and unload more than 6 times");
 
@@ -59,6 +63,8 @@ const Task = (props) => {
     const send = () => {
         if (params.length === 0) return toast.error("No task to send");
         sendTask(params)
+        setParams([]);
+        setTask("");
     };
 
     const tasks = zones.map((element) => (
@@ -91,7 +97,12 @@ const Task = (props) => {
                     </button>
                 </div>
             )}
-
+            {
+                processState == "Processing" && (
+                    <div className='w-full h-12 bg-red-500 text-white mt-4 flex items-center justify-center'>
+                        <p className='text-black'>current task : {task}</p>
+                    </div>
+            )}
             <div className='w-full h-12 absolute bottom-2 left-0 px-5'>
                 <button className='w-full h-full bg-slate-400 text-white' onClick={send}>
                     Send task
