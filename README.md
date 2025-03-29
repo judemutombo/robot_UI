@@ -1,1 +1,6 @@
+just run :
+
+```
+npm start
+```
 
